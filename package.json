@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A fullstack seed for Jordan's projects",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jordancaudill/JordanSeed"
+  },
   "directories": {
     "test": "test"
   },
@@ -10,9 +14,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jordan Caudill",
-  "license": "ALv2",
+  "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.14.0",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "mongodb": "^2.2.11"
+  },
+  "devDependencies": {
+    "jasmine": "^2.5.2"
   }
 }
