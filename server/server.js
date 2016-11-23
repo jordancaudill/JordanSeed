@@ -19,22 +19,23 @@ app.use(express.static('../client'));
 // Connect to MongoDB, then Mongoose
 var dbString = 'mongodb://localhost/testDB';
 async.series([
-    function(callback) {
-        mongodb.connect(dbString, function (err, res) {
-            callback(err, res);
-        });
-    },
-    function(callback) {
-         mongoose.connect(dbString, function(err, res) {
-             callback(err, res);
-        });
+        function(callback) {
+            mongodb.connect(dbString, function (err, res) {
+                callback(err, res);
+            });
+        },
+        function(callback) {
+            mongoose.connect(dbString, function(err, res) {
+                callback(err, res);
+            });
+        }
+    ],
+    // This is the callback
+    function(err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Successfully connected to MongoDB and Mongoose.');
+        }
     }
-],
-// This is the callback
-function(err, results) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log('Successfully connected to MongoDB and Mongoose.');
-    }
-});
+);
