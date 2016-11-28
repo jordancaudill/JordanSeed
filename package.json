@@ -2,29 +2,34 @@
   "name": "jordan_seed",
   "version": "1.0.0",
   "description": "A fullstack seed for Jordan's projects",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jordancaudill/JordanSeed"
-  },
+  "main": "server.js",
   "directories": {
-    "test": "test"
+    "test": "tests"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Jordan Caudill",
-  "license": "Apache-2.0",
   "dependencies": {
     "angular": "^1.5.8",
     "async": "^2.1.4",
     "express": "^4.14.0",
     "mongodb": "^2.2.11",
     "mongoose": "^4.7.0"
-  },
+  },  
   "devDependencies": {
     "chai": "^3.5.0",
     "jasmine": "^2.5.2",
     "mocha": "^3.2.0"
-  }
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jordancaudill/JordanSeed.git"
+  },
+  "author": "Jordan Caudill",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jordancaudill/JordanSeed/issues"
+  },
+  "homepage": "https://github.com/jordancaudill/JordanSeed"
 }
