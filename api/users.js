@@ -1,10 +1,15 @@
 var router = require('express').Router();
+var userSchema = require('../schemas/userSchema');
 
-// TODO: unsure if sign up should be 
-router.post('/signup', signup);
+router.post('/users', createUser);
 
-function signup(req, res, next) {
-    
+function createUser(req, res, next) {
+    User.create(req.body, function (err, user) {
+        if (err) {
+            return res.status(400).send(err);
+        }
+        return res.status(201).send(user);
+    });
 }
 
 // Make these endpoints available

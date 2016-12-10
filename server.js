@@ -4,10 +4,11 @@ var express = require('express');
 var mongoose = require('mongoose');
 var mongodb = require('mongodb');
 var async = require('async');
-var auth = require('./api/auth.js');
 
 var app = express();
-var port = 3000;
+require('./api/users.js');
+
+var port = 80;
 
 // Start the express server on the given port
 app.listen(port, function () {
@@ -40,3 +41,5 @@ async.series([
         }
     }
 );
+
+module.exports = app;
