@@ -4,7 +4,7 @@ var server = require('../server.js');
 var should = chai.should();
 chai.use(chaiHttp);
 
-describe('user api', function() {
+describe('users api', function() {
     it('should list ALL users on /users GET', function(done) {
         chai.request(server)
             .get('/users')

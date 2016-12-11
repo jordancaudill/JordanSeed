@@ -4,11 +4,16 @@ var express = require('express');
 var mongoose = require('mongoose');
 var mongodb = require('mongodb');
 var async = require('async');
+var cors = require ('cors');
 
 var app = express();
-require('./api/users.js');
 
 var port = 80;
+
+//ENABLE CORS
+app.options('*', cors());
+app.use(cors());
+app.use('/', require('./endpoints/users.js'));
 
 // Start the express server on the given port
 app.listen(port, function () {

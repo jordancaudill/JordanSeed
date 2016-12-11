@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "A fullstack seed for Jordan's projects",
   "main": "server.js",
-  "directories": {
-    "test": "tests"
-  },
   "dependencies": {
     "angular": "^1.5.8",
     "async": "^2.1.4",
+    "cors": "^2.8.1",
     "express": "^4.14.0",
     "mongodb": "^2.2.11",
     "mongoose": "^4.7.0"
@@ -21,7 +19,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
