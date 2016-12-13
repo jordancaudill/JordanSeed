@@ -5,26 +5,29 @@ var mongoose = require('mongoose');
 var mongodb = require('mongodb');
 var async = require('async');
 var cors = require ('cors');
-
+var bodyParser = require('body-parser');
 var app = express();
 
-var port = 80;
+var port = 9001;
 
-//ENABLE CORS
+// Enable CORS
 app.options('*', cors());
 app.use(cors());
-app.use('/', require('./endpoints/users.js'));
 
-// Start the express server on the given port
-app.listen(port, function () {
-    console.log('Server is running on localhost:' + port);
-});
+// parse application/json and look for raw text                                        
+app.use(bodyParser.json());                                     
+app.use(bodyParser.urlencoded({extended: true}));               
+app.use(bodyParser.text());                                    
+app.use(bodyParser.json({ type: 'application/json'}));  
+
+// require endpoints
+app.use('/', require('./endpoints/users.js'));
 
 // Serve the static front end files
 app.use(express.static('../client'));
 
-// Connect to MongoDB, then Mongoose
 var dbString = 'mongodb://localhost/testDB';
+
 async.series([
         function(callback) {
             mongodb.connect(dbString, function (err, res) {
@@ -43,6 +46,11 @@ async.series([
             console.log(err);
         } else {
             console.log('Successfully connected to MongoDB and Mongoose.');
+            // Start the express server on the given port
+            app.listen(port, function () {
+                console.log('Server is running on localhost:' + port);
+            });
+
         }
     }
 );
