@@ -21,6 +21,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));  
 
 // require endpoints
+app.use('/', require('./endpoints/auth.js'));
 app.use('/', require('./endpoints/users.js'));
 
 // Serve the static front end files

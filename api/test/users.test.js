@@ -75,29 +75,6 @@ describe('users api', function() {
                     done();
                 });
         });
-
-        it('should return an empty array if no users exist', function(done) {
-            chai.request(server)
-                .get('/users')
-                .send()
-                .end(function(err, res){
-                    res.should.have.status(404);
-                    res.should.be.json;
-                    res.body.should.be.a('array');
-                    done();
-                });
-        });
-        it('should list ALL users', function(done) {
-            chai.request(server)
-                .get('/users')
-                .send()
-                .end(function(err, res){
-                    res.should.have.status(200);
-                    res.should.be.json;
-                    res.body.should.be.a('array');
-                    done();
-                });
-        });
     });
 
     describe('/users/:id GET endpoint', function() {
@@ -166,5 +143,29 @@ describe('users api', function() {
 
     });
 
-    // it('should delete a SINGLE user on /user/<id> DELETE');
+    describe('/users/:id DELETE endpoint', function () {
+        it('should delete a user with a valid ID', function(done){
+            chai.request(server)
+                .delete('/users/' + userID)
+                .send()
+                .end(function(err, res){
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+
+        it('should NOT delete a user with an invalid ID', function(done){
+            chai.request(server)
+                .delete('/users/invalidid123')
+                .send()
+                .end(function(err, res){
+                    res.should.have.status(404);
+                    res.should.be.json;
+                    res.body.should.be.a('object');
+                    done();
+                });
+        });
+    });
 });
