@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var User = require('../schemas/userSchema');
+var bcrypt = require('bcrypt');
 
 // these are the endpoints and their related functions
 router.post('/users', createUser);
@@ -13,11 +14,19 @@ function createUser(req, res, next) {
         if (existingUser) {
             return res.status(400).send('A user with that email already exists.');
         } else {
-            User.create(req.body, function (err, user) {
+            // encrypt the user's password before creating user
+            bcrypt.hash(req.body.password, 10, function(err, hash) {
                 if (err) {
                     return res.status(400).send(err);
-                } 
-                return res.status(201).send(user);
+                } else {
+                    req.body.password = hash;
+                    User.create(req.body, function (err, user) {
+                        if (err) {
+                            return res.status(400).send(err);
+                        } 
+                        return res.status(201).send(user);
+                    });
+                }
             });
         }
     });

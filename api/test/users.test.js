@@ -23,6 +23,8 @@ describe('users api', function() {
                     res.body.should.have.property('lastName');
                     res.body.should.have.property('email');
                     res.body.should.have.property('password');
+                    // password should be encrypted
+                    res.body.password.should.not.equal('validPassword');
                     res.body.should.have.property('_id');
                     done();
                 });

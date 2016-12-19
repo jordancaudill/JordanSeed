@@ -5,7 +5,7 @@ router.post('/logout', logout);
 router.post('/refresh', refresh);
 
 function login(req, res, next) {
-
+    
 }
 
 function logout(req, res, next) {
