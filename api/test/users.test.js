@@ -31,7 +31,7 @@ describe('users api', function() {
         });
 
         it('should NOT add a user with invalid data', function(done) {
-            var inValidUser = {};
+            var inValidUser = {password: 'derp'};
             chai.request(server)
                 .post('/users')
                 .send(inValidUser)
@@ -40,6 +40,18 @@ describe('users api', function() {
                     res.should.be.json;
                     res.body.should.be.a('object');
                     res.body.should.have.property('errors');
+                    done();
+                });
+        });
+
+        it('should NOT encrypt an invalid password', function(done) {
+            var inValidUser = {};
+            chai.request(server)
+                .post('/users')
+                .send(inValidUser)
+                .end(function(err, res){
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
                     done();
                 });
         });

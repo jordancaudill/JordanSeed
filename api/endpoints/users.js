@@ -17,7 +17,7 @@ function createUser(req, res, next) {
             // encrypt the user's password before creating user
             bcrypt.hash(req.body.password, 10, function(err, hash) {
                 if (err) {
-                    return res.status(400).send(err);
+                    return res.status(400).send('Could not encrypt password.');
                 } else {
                     req.body.password = hash;
                     User.create(req.body, function (err, user) {
