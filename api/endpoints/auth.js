@@ -46,6 +46,27 @@ function login(req, res, next) {
 }
 
 function logout(req, res, next) {
+    User.findOne({_id: req.body._id}, function(err, user) {
+        if (err) {
+            return res.status(400).send(err);
+        } else if (user == null) {
+            return res.status(404).send({});
+        } else {
+            user.accessToken = null;
+            user.refreshToken = null;
+            user.accessTokenExpires = null;
+            user.refreshTokenExpires = null;
+            User.findByIdAndUpdate(user._id, user, {runValidators: true, new: true}, function (err, savedUser) {
+                if (err) {
+                    return res.status(400).send(err);
+                } else if (savedUser == null) {
+                    return res.status(404).send({});
+                } else {
+                    return res.status(200).send(savedUser);
+                }
+            });
+        }
+    });
 
 }
 

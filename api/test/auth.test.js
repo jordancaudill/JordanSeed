@@ -5,16 +5,16 @@ var User = require('../schemas/userSchema');
 var should = chai.should();
 chai.use(chaiHttp);
 
-describe('auth api', function() {
-    describe('/login POST endpoint', function() {
-        it('should log a user in with valid credentials', function(done) {
+describe('auth api', function () {
+    describe('/login POST endpoint', function () {
+        it('should log a user in with valid credentials', function (done) {
             // get a user that was created in the user test
-            User.findOne({firstName: 'validName'}, function (err, user) {
-                var validUser = {email: user.email, password: 'validPassword'};
+            User.findOne({ firstName: 'validName' }, function (err, user) {
+                var validUser = { email: user.email, password: 'validPassword' };
                 chai.request(server)
                     .post('/login')
                     .send(validUser)
-                    .end(function(err, res){
+                    .end(function (err, res) {
                         res.should.have.status(200);
                         res.should.be.json;
                         res.body.should.be.a('object');
@@ -31,25 +31,26 @@ describe('auth api', function() {
             });
         });
 
-        it('should NOT log a user in with an invalid email', function(done) {
-            var validUser = {email: 'jnejrnherj23323r2gbmtbrg2', password: 'validPassword'};
+        it('should NOT log a user in with an invalid email', function (done) {
+            var validUser = { email: 'jnejrnherj23323r2gbmtbrg2', password: 'validPassword' };
             chai.request(server)
                 .post('/login')
                 .send(validUser)
-                .end(function(err, res){
+                .end(function (err, res) {
                     res.should.have.status(404);
                     res.should.be.json;
                     res.body.should.be.a('object');
                     done();
                 });
         });
-        it('should NOT log a user in with an invalid password', function(done) {
-            User.findOne({firstName: 'validName'}, function (err, user) {
-                var validUser = {email: user.email, password: 'ertseq68933efrdgredg212'};
+
+        it('should NOT log a user in with an invalid password', function (done) {
+            User.findOne({ firstName: 'validName' }, function (err, user) {
+                var validUser = { email: user.email, password: 'ertseq68933efrdgredg212' };
                 chai.request(server)
                     .post('/login')
                     .send(validUser)
-                    .end(function(err, res){
+                    .end(function (err, res) {
                         res.should.have.status(400);
                         res.text.should.be.a('string');
                         res.text.should.equal('Invalid password.');
@@ -60,9 +61,28 @@ describe('auth api', function() {
         });
     });
 
-    describe('/logout POST endpoint', function() {
-    });
-    
-    describe('/refresh POST endpoint', function() {
+    describe('/logout POST endpoint', function () {
+        it('should log the user out', function (done) {
+            // get a user that was created in the user test
+            User.findOne({ firstName: 'validName' }, function (err, user) {
+                var validUser = { _id: user._id };
+                chai.request(server)
+                    .post('/logout')
+                    .send(validUser)
+                    .end(function (err, res) {
+                        res.should.have.status(200);
+                        res.should.be.json;
+                        res.body.should.be.a('object');
+                        should.equal(res.body.accessToken, null);
+                        should.equal(res.body.refreshToken, null);
+                        should.equal(res.body.accessTokenExpires, null);
+                        should.equal(res.body.accessTokenExpires, null);
+                        done();
+                    });
+            });
+        });
+
+        describe('/refresh POST endpoint', function () {
+        });
     });
 });
