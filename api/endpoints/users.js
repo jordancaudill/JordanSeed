@@ -23,7 +23,7 @@ function createUser(req, res, next) {
                     User.create(req.body, function (err, user) {
                         if (err) {
                             return res.status(400).send(err);
-                        } 
+                        }
                         return res.status(201).send(user);
                     });
                 }

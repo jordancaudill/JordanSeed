@@ -44,7 +44,7 @@ describe('users api', function() {
                 });
         });
 
-        it('should NOT encrypt an invalid password', function(done) {
+        it('should NOT hash an invalid password', function(done) {
             var inValidUser = {};
             chai.request(server)
                 .post('/users')

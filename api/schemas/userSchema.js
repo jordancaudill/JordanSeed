@@ -21,8 +21,8 @@
         },
         'accessToken': String,
         'refreshToken': String,
-        'accessTokenExpires': Date,
-        'refreshTokenExpires': Date,
+        'accessTokenExpires': Number,
+        'refreshTokenExpires': Number,
     });
 
     if (typeof module !== 'undefined' && module.exports) {
