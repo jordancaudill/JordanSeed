@@ -24,19 +24,16 @@ app.use(bodyParser.json({ type: 'application/json'}));
 app.use('/', require('./endpoints/auth.js'));
 app.use('/', require('./endpoints/users.js'));
 
-// Serve the static front end files
-app.use(express.static('../client'));
-
-var dbString = 'mongodb://localhost/testDB';
+var DBSTRING = 'mongodb://localhost/testDB';
 
 async.series([
         function(callback) {
-            mongodb.connect(dbString, function (err, res) {
+            mongodb.connect(DBSTRING, function (err, res) {
                 callback(err, res);
             });
         },
         function(callback) {
-            mongoose.connect(dbString, function(err, res) {
+            mongoose.connect(DBSTRING, function(err, res) {
                 callback(err, res);
             });
         }
