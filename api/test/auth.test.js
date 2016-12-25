@@ -6,6 +6,7 @@ var should = chai.should();
 chai.use(chaiHttp);
 
 describe('auth api', function () {
+    var loggedInUser;
     describe('/login POST endpoint', function () {
         it('should log a user in with valid credentials', function (done) {
             // get a user that was created in the user test
@@ -26,6 +27,7 @@ describe('auth api', function () {
                         res.body.should.have.property('accessTokenExpires');
                         res.body.should.have.property('refreshTokenExpires');
                         res.body.should.have.property('_id');
+                        loggedInUser = res.body;
                         done();
                     });
             });
@@ -61,6 +63,36 @@ describe('auth api', function () {
         });
     });
 
+    describe('/refresh POST endpoint', function () {
+        it('should refresh if the refresh token is valid and not expired', function (done) {
+            var userInfo = { _id: loggedInUser._id, refreshToken: loggedInUser.refreshToken };
+            chai.request(server)
+                .post('/refresh')
+                .send(userInfo)
+                .end(function (err, res) {
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.should.be.a('object');
+                    res.body.accessToken.should.not.equal(loggedInUser.accessToken);
+                    res.body.accessToken.should.not.equal(loggedInUser.accessTokenExpires);
+                    done();
+                });
+
+        });
+        it('should NOT refresh if the refresh token is invalid', function (done) {
+            var userInfo = { _id: loggedInUser._id, refreshToken: 'notarealrefreshtoken' };
+            chai.request(server)
+                .post('/refresh')
+                .send(userInfo)
+                .end(function (err, res) {
+                    res.should.have.status(400);
+                    res.text.should.equal('Session expired.');
+                    done();
+                });
+
+        });
+    });
+
     describe('/logout POST endpoint', function () {
         it('should log the user out', function (done) {
             // get a user that was created in the user test
@@ -81,8 +113,6 @@ describe('auth api', function () {
                     });
             });
         });
-
-        describe('/refresh POST endpoint', function () {
-        });
     });
+
 });
